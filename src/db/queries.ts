@@ -63,4 +63,8 @@ async function transferQuery({ amount, receiverId, senderId }: ITransferQueryPar
 
 }
 
-export { getCustomersQuery, transferQuery }
+function getCustomerQuery(id: number) {
+    return connection('customers').select('*').where('id', id).first();
+}
+
+export { getCustomersQuery, transferQuery, getCustomerQuery }

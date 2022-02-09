@@ -1,0 +1,33 @@
+@layout('layout/app')
+
+@section('body')
+    <main class="py-4">
+         <h2 class="text-center mb-4 text-uppercase">{{ customer.name }}</h2>
+         <section class="col-4 container rounded shadow-lg bg-light px-3 py-3 bg-dark mt-5">
+             <h5 class="mb-2 text-center text-uppercase">customer informations</h5>
+             <hr/>
+            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
+                <span class="w-75">customer name</span>
+                <input type="text"  disabled class="form-control"  value='{{ customer.name }}' />
+            </div>
+            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
+                <span class="w-75">email</span>
+                <input type="text"  disabled class="form-control"  value='{{ customer.email }}' />
+            </div>
+            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
+                <span class="w-75">balance</span>
+                <input type="text"  disabled class="form-control"  value='{{ customer.balance }}$' />
+            </div>
+            @if(customer.balance > 0)
+            <!-- transfer modal here  -->
+            
+            <!-- transfer modal here  -->
+            <div class="mt-4">
+                <button class="btn btn-block w-100 btn-light text-uppercase">
+                    transfer money
+                </button>
+            </div>
+            @endif
+         </section>
+    </main>
+@endsection

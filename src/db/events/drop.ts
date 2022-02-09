@@ -1,9 +1,10 @@
 import { connection } from "../connection";
 
-try {
-    connection.schema.dropTable('customers').dropTable('transfers');
-    console.log('done dropped')
-} catch (err) {
-    console.error(err)
+async function main() {
+    await connection.schema.dropTable('customers').dropTable('transfers');
 }
 
+main().catch(console.error).finally(() => {
+    console.log('tables dropped succesfully !');
+    process.exit();
+})

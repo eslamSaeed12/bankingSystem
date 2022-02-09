@@ -3,7 +3,7 @@ import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { env } from './utils/env';
-import { homeAction, customersAction, transferAction } from './controllers/main.ctr';
+import { homeAction, customersAction, transferAction, customerAction } from './controllers/main.ctr';
 import { join } from 'path'
 // constructing express instance 
 const app = express();
@@ -26,6 +26,7 @@ app.use(_static('public'))
 
 app.get('/', homeAction);
 app.get('/customers', customersAction);
+app.get('/customer/:id', customerAction);
 app.post('/transfer', transferAction);
 
 

@@ -34,9 +34,9 @@
     "db:sync": "node build/db/events/sync.js",
     "db:reset": "node build/db/events/drop.js",
     "db:seed": "node build/db/events/seed.js",
-    "db:dev:sync": "node src/db/events/sync.ts",
-    "db:dev:reset": "node src/db/events/drop.ts",
-    "db:dev:seed": "node src/db/events/seed.ts"
+    "db:dev:sync": "ts-node src/db/events/sync.ts",
+    "db:dev:drop": "ts-node src/db/events/drop.ts",
+    "db:dev:seed": "ts-node src/db/events/seed.ts"
   },
   "devDependencies": {
     "@types/chance": "^1.1.3",

@@ -8,7 +8,7 @@ function generateFakeCustomers(num: number) {
 
     for (let i = 0; i < num; i++) {
         customers.push({
-            amount: faker.integer({ min: 0 }),
+            balance: faker.integer({ min: 0, max: 400000 }),
             name: faker.name(),
             email: faker.email()
         })
@@ -17,8 +17,13 @@ function generateFakeCustomers(num: number) {
     return customers;
 }
 
-try {
-    connection('customers').insert(generateFakeCustomers(10));
-} catch (err) {
-    console.error(err)
+
+async function main() {
+    //console.log(generateFakeCustomers(10))
+    await connection('customers').insert(generateFakeCustomers(10));
 }
+
+main().catch(console.error).finally(() => {
+    console.log('db sedded succsessfully !');
+    process.exit()
+})
