@@ -42,4 +42,13 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export { homeAction, customersAction, transferAction, customerAction };
+
+async function notFoundAction(req: Request, res: Response, next: NextFunction) {
+    try {
+        res.render('pages.404', { location: req.url });
+    } catch (err) {
+        next(err)
+    }
+}
+
+export { homeAction, customersAction, transferAction, customerAction, notFoundAction };
