@@ -12,3 +12,9 @@ window.addEventListener("load", () => {
     });
   }
 });
+const isCustomerPage = document.querySelector("#customer-page");
+if (isCustomerPage) {
+  $("#submit-transfer-form").click(() => {
+    $("#transferForm").submit();
+  });
+}

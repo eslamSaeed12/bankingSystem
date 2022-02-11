@@ -12,12 +12,12 @@ interface ITransferQueryParams {
 }
 
 function getCustomersQuery() {
-    return connection.select('*').from('customers');
+    return connection('customers').select('*');
 }
 
 
-function getCustomerBalance(customerId: number) {
-    return connection.select('balance').from('customer').where('id', customerId);
+async function getCustomerBalance(customerId: number) {
+    return await connection('customers').select('*').where({ id: customerId }).first();
 }
 
 
@@ -28,29 +28,31 @@ function setTransferOperation({ amount, receiverId, senderId }: ITransferQueryPa
 
 async function transferQuery({ amount, receiverId, senderId }: ITransferQueryParams) {
     // getting sender balance 
-    const senderBalance = await getCustomerBalance(senderId).first();
+    const senderBalance = await getCustomerBalance(senderId);
 
     // getting receiver balance
-    const receiverBalance = await getCustomerBalance(receiverId).first();
+    const receiverBalance = await getCustomerBalance(receiverId);
 
+    console.log(senderBalance?.balance, '-', senderBalance?.balance - amount)
+    console.log(receiverBalance?.balance, '+', receiverBalance?.balance + amount)
     // first reduce the amount from sender 
 
     const updateSenderStmt = await connection
-        .table('customers')
+        .from('customers')
+        .where('id', senderId)
         .update({
-            amount: amount - senderBalance?.balance
-        }).where('id', senderId).first();
+            balance: senderBalance?.balance - amount
+        }, '*', { includeTriggerModifications: true });
 
+
+    console.log('after ', updateSenderStmt)
 
     // second increase balance from recevier
 
-    const updateReceiverStmt = await connection
-        .table('customers')
+    const updateReceiverStmt = await connection('customers')
         .update({
-            amount: amount + receiverBalance?.balance
-        }).where('id', senderId).first();
-
-
+            balance: amount + receiverBalance?.balance
+        }, '*', { includeTriggerModifications: true }).where({ id: receiverId });
 
     // adding transfer operation
     const transferOperation = await setTransferOperation({ amount, senderId, receiverId });
@@ -64,7 +66,7 @@ async function transferQuery({ amount, receiverId, senderId }: ITransferQueryPar
 }
 
 function getCustomerQuery(id: number) {
-    return connection('customers').select('*').where('id', id).first();
+    return connection('customers').select('*').where({ id: id }).first();
 }
 
 export { getCustomersQuery, transferQuery, getCustomerQuery }

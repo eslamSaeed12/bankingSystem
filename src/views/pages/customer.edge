@@ -1,33 +1,90 @@
-@layout('layout/app')
-
+@layout('layouts.app')
 @section('body')
-    <main class="py-4">
-         <h2 class="text-center mb-4 text-uppercase">{{ customer.name }}</h2>
-         <section class="col-4 container rounded shadow-lg bg-light px-3 py-3 bg-dark mt-5">
-             <h5 class="mb-2 text-center text-uppercase">customer informations</h5>
-             <hr/>
-            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
-                <span class="w-75">customer name</span>
-                <input type="text"  disabled class="form-control"  value='{{ customer.name }}' />
+<main class="py-4" id="customer-page">
+  <h2 class=" text-center mb-4 text-uppercase">{{customer.name}} </h2>
+  <section class=" col-4 container rounded shadow-lg bg-light px-3 py-3 bg-dark mt-5">
+    <h5 class=" mb-2 text-center text-uppercase">customer informations</h5>
+    <hr>
+    <div class=" form-group d-flex align-items-center text-uppercase flex-row mb-3">
+      <span class=" w-75">customer name</span>
+      <input class=" form-control" type="text" disabled value="{{customer.name}}">
+    </div>
+    <div class=" form-group d-flex align-items-center text-uppercase flex-row mb-3">
+      <span class=" w-75">email</span>
+      <input class=" form-control" type="text" disabled value="{{customer.email}}">
+    </div>
+    <div class=" form-group d-flex align-items-center text-uppercase flex-row mb-3">
+      <span class=" w-75">balance</span>
+      <input class=" form-control" type="text" disabled value="{{customer.balance}}$">
+    </div>
+     @if(customer.balance)
+      <!-- transfer modal here  -->
+      <!-- Modal -->
+      <div class="modal fade text-dark"
+      id="transferModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class=" modal-dialog">
+          <div class=" modal-content">
+            <div class=" modal-header">
+              <h5 class=" modal-title text-uppercase font-weight-bold" id="exampleModalLabel">
+                transfer money
+              </h5>
+              <button class=" close"
+                type="button"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
-                <span class="w-75">email</span>
-                <input type="text"  disabled class="form-control"  value='{{ customer.email }}' />
+            <div class='modal-body'>
+              <form id="transferForm" action="/transfer" method="post">
+                <input type="hidden" name="senderId" value="{{ customer.id }}">
+                <div class=" form-group text-black mb-3">
+                  <label class=" font-weight-bold text-capitalize">customer</label>
+                  <select class=" selectpicker d-block form-control"
+                    name="receiverId"
+                    data-live-search="true"
+                    required
+                  >
+                    @each(c in customres)
+                      <option value="{{ c.id }}"> {{ c.name }} </option>
+                    @endeach
+                  </select>
+                </div>
+                <div class=" form-group">
+                  <label class=" font-weight-bold text-capitalize">amount</label>
+                  <input class=" form-control" type="text" name="amount" required>
+                </div>
+              </form>
             </div>
-            <div class="form-group d-flex align-items-center text-uppercase flex-row mb-3">
-                <span class="w-75">balance</span>
-                <input type="text"  disabled class="form-control"  value='{{ customer.balance }}$' />
+            <div class=" modal-footer">
+              <button class=" btn btn-outline-primary text-uppercase"
+                type="button"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button class="btn btn-primary text-uppercase " id="submit-transfer-form" type="button">
+                transfer
+              </button>
             </div>
-            @if(customer.balance > 0)
-            <!-- transfer modal here  -->
-            
-            <!-- transfer modal here  -->
-            <div class="mt-4">
-                <button class="btn btn-block w-100 btn-light text-uppercase">
-                    transfer money
-                </button>
-            </div>
-            @endif
-         </section>
-    </main>
+          </div>
+        </div>
+      </div>
+      <!-- transfer modal here  -->
+      <div class=" mt-4">
+        <button class=" btn btn-block w-100 btn-light text-uppercase"
+          data-toggle="modal"
+          data-target="#transferModal"
+        >
+          transfer money
+        </button>
+      </div>
+    @endif
+  </section>
+</main>
 @endsection

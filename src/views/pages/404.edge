@@ -1,18 +1,19 @@
-@layout('layout/app')
+@layout('layouts.app')
 
 @section('body')
-    <main class="d-flex flex-column align-items-center justify-content-center full-height">
-        <section class="container">
-            <div class="col-8 mx-auto rounded shadow-lg text-center p-4 bg-dark">
-                <code>
-                    uri : {{location}}
-                </code>
-                <h2 class="text-uppercase my-3">oops 404</h2>
-                <p class="lead text-capitalize">
-                    this page is not exist 
-                </p>
-                <a class="btn btn-lg btn-light text-uppercase" href="/">home page</a>
-            </div>
-        </section>
-    </main>
+<main
+  class="d-flex flex-column align-items-center justify-content-center full-height"
+>
+  <section class="container">
+    <div class="col-8 mx-auto rounded shadow-lg text-center p-4 bg-dark">
+      <code
+        >uri :
+        {{location}}</code
+      >
+      <h2 class="text-uppercase my-3">oops 404</h2>
+      <p class="lead text-capitalize">this page is not exist</p>
+      <a class="btn btn-lg btn-light text-uppercase" href="/">home page</a>
+    </div>
+  </section>
+</main>
 @endsection
