@@ -4,8 +4,9 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { homeAction, customersAction, transferAction, customerAction, notFoundAction } from './controllers/main.ctr';
 import { join } from 'path'
-import edge from 'edge.js'
 import { env } from './utils/env';
+import { useCheckCustomerBalanceMd } from './middlewares/checkCustomerBalanceMD';
+import { useServerErrorMd } from './middlewares/ServerErrorMd';
 
 
 
@@ -22,21 +23,25 @@ app.set('views', `${join(__dirname, 'views')}`);
 app.set('view engine', 'edge');
 
 
-// SETTING MIDDLEWARES
+// REGISTER MIDDLEWARES
 app.use(engine)
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(helmet())
 app.use(_static('public'))
 
-// SETTING ROUTES
+// REGISTER ROUTES
 app.get('/', homeAction);
 app.get('/customers', customersAction);
 app.get('/customer/:id', customerAction);
-app.post('/transfer', transferAction);
-
+app.post('/transfer', useCheckCustomerBalanceMd, transferAction);
 //  a route dispatched when a user dispatch a non exist route
-app.use(notFoundAction)
+app.use(useServerErrorMd);
+app.use(notFoundAction);
+
+// error route dispatched when there is an error happend
+
+
 
 // exporting app to be testable
 export { app };

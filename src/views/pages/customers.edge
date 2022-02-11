@@ -1,9 +1,9 @@
 @layout('layouts.app')
 @section('body')
-<main class="py-4">
+<main class="py-4 mt-5">
   <h2 class="text-center  mb-4 text-uppercase">customers page</h2>
-  <section class="table-wrapper container  rounded  shadow-lg  bg-light  px-3  py-3  bg-dark">
-    <table class="table table-dark table-hover  table-bordered  table-md  text-center  hover  my-auto">
+  <section class="table-wrapper container  rounded  shadow-lg    px-3  py-3  bg-light">
+    <table class="table table-light table-hover text-dark rounded table-bordered  table-sm  text-center  hover  my-auto">
       <thead>
         <tr class="  text-uppercase  font-weight-bold">
           <td>#</td>
@@ -14,13 +14,13 @@
         </tr>
       </thead>
       <tbody>
-        @each(c in customers)
+        @each((c,i) in customers)
           <tr class="selectable-item" data-navigatable="/customer/{{c.id}}">
-            <td> 0 </td>
+            <td> {{i+1}} </td>
             <td> {{c.id}} </td>
             <td> {{c.name}} </td>
             <td> {{c.email}} </td>
-            <td> {{c.balance}} </td>
+            <td> {{c.balance}}$ </td>
           </tr>
         @endeach
       </tbody>

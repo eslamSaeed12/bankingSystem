@@ -12,7 +12,7 @@ interface ITransferQueryParams {
 }
 
 function getCustomersQuery() {
-    return connection('customers').select('*');
+    return connection('customers').select('*').orderBy('balance', 'desc');
 }
 
 
@@ -33,10 +33,7 @@ async function transferQuery({ amount, receiverId, senderId }: ITransferQueryPar
     // getting receiver balance
     const receiverBalance = await getCustomerBalance(receiverId);
 
-    console.log(senderBalance?.balance, '-', senderBalance?.balance - amount)
-    console.log(receiverBalance?.balance, '+', receiverBalance?.balance + amount)
     // first reduce the amount from sender 
-
     const updateSenderStmt = await connection
         .from('customers')
         .where('id', senderId)
@@ -45,7 +42,6 @@ async function transferQuery({ amount, receiverId, senderId }: ITransferQueryPar
         }, '*', { includeTriggerModifications: true });
 
 
-    console.log('after ', updateSenderStmt)
 
     // second increase balance from recevier
 
@@ -69,4 +65,4 @@ function getCustomerQuery(id: number) {
     return connection('customers').select('*').where({ id: id }).first();
 }
 
-export { getCustomersQuery, transferQuery, getCustomerQuery }
+export { getCustomersQuery, transferQuery, getCustomerQuery, getCustomerBalance }

@@ -32,6 +32,8 @@ async function transferAction(req: Request, res: Response, next: NextFunction) {
 async function customerAction(req: Request, res: Response, next: NextFunction) {
     try {
         const { id } = req.params;
+        const { message } = req.query;
+
         const customer = await getCustomerQuery(parseInt(id));
 
         if (!customer) {
@@ -40,7 +42,7 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
         }
 
         const customres = await getCustomersQuery();
-        res.render('pages.customer', { customer, customres });
+        res.render('pages.customer', { customer, customres, message });
     } catch (err) {
         next(err)
     }
