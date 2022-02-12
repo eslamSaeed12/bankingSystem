@@ -1,8 +1,3 @@
-import knex from 'knex';
-import { env } from '../utils/env';
+import { createConnection } from 'typeorm';
 
-export const connection = knex({
-    client: 'pg',
-    connection: env('PG_CONNECTION_STRING'),
-    searchPath: ['public', 'path']
-});
+export const connection = createConnection;

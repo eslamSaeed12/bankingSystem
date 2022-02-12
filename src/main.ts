@@ -5,13 +5,15 @@ import morgan from 'morgan';
 import { homeAction, customersAction, transferAction, customerAction, notFoundAction } from './controllers/main.ctr';
 import { join } from 'path'
 import { env } from './utils/env';
-import { useCheckCustomerBalanceMd } from './middlewares/checkCustomerBalanceMD';
+import { useCheckCustomerBalanceMd } from './middlewares/checkCustomerBalanceMd';
 import { useServerErrorMd } from './middlewares/ServerErrorMd';
 
 
 
 // constructing express instance 
 const app = express();
+
+app.set('trust proxy', 1)
 
 // setting configs
 const { config, engine } = require('express-edge');

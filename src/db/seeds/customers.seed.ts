@@ -1,7 +1,10 @@
+import { Connection } from "typeorm";
+import { Seeder } from "typeorm-seeding";
+import { Customer } from "../models/customer";
 import { Chance } from 'chance'
-import { connection } from '../connection';
 
 const faker = new Chance();
+
 
 function generateFakeCustomers(num: number) {
     const customers: Array<object> = [];
@@ -18,12 +21,8 @@ function generateFakeCustomers(num: number) {
 }
 
 
-async function main() {
-    //console.log(generateFakeCustomers(10))
-    await connection('customers').insert(generateFakeCustomers(10));
+export default class CreateCustomers implements Seeder {
+    public async run(factory: any, connection: Connection): Promise<any> {
+        await connection.getRepository(Customer).insert(generateFakeCustomers(10))
+    }
 }
-
-main().catch(console.error).finally(() => {
-    console.log('db sedded succsessfully !');
-    process.exit()
-})

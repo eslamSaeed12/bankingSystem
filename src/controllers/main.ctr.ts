@@ -1,5 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { getCustomerQuery, getCustomersQuery, transferQuery } from "../db/queries";
+import { getRepository } from "typeorm";
+import { Customer } from "../db/models/customer";
+import { Trasnfer } from "../db/models/transfer";
 
 function homeAction(req: Request, res: Response, next: NextFunction) {
     try {
@@ -11,7 +13,7 @@ function homeAction(req: Request, res: Response, next: NextFunction) {
 
 async function customersAction(req: Request, res: Response, next: NextFunction) {
     try {
-        const customers = await getCustomersQuery();
+        const customers = await getRepository(Customer).find();
         res.render('pages.customers', { customers });
     } catch (err) {
         next(err)
@@ -21,8 +23,23 @@ async function customersAction(req: Request, res: Response, next: NextFunction) 
 async function transferAction(req: Request, res: Response, next: NextFunction) {
     try {
         const { senderId, receiverId, amount } = req.body;
-        await transferQuery({ amount: parseFloat(amount), senderId: parseInt(senderId), receiverId: parseInt(receiverId) });
-        res.redirect('/customers');
+
+        const sender = await getRepository(Customer).findOneOrFail(senderId);
+
+        const receiver = await getRepository(Customer).findOneOrFail(receiverId);
+
+        await getRepository(Customer).update(sender.id, {
+            balance: (sender.balance) - parseFloat(amount)
+        });
+
+        await getRepository(Customer).update(receiver.id, {
+            balance: (sender.balance) + parseFloat(amount)
+        });
+
+        await getRepository(Trasnfer).insert({
+            amount: parseFloat(amount), senderId: parseInt(senderId), receiverId: parseInt(receiverId)
+        })
+        res.redirect('/customers', 200);
     } catch (err) {
         next(err)
     }
@@ -34,14 +51,14 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
         const { message } = req.query;
 
-        const customer = await getCustomerQuery(parseInt(id));
+        const customer = await getRepository(Customer).findOneOrFail(parseInt(id));
 
         if (!customer) {
-            res.redirect('/404');
+            res.redirect('/404', 404);
             return;
         }
 
-        const customres = await getCustomersQuery();
+        const customres = await getRepository(Customer).find();
         res.render('pages.customer', { customer, customres, message });
     } catch (err) {
         next(err)
