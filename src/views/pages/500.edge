@@ -2,17 +2,16 @@
 
 @section('body')
 <main
-  class="d-flex flex-column align-items-center justify-content-center full-height"
+  class="mt-5"
 >
   <section class="container">
-    <div class="col-8 mx-auto rounded shadow-lg text-center p-4 bg-secondary">
-      <code class="bg-dark p-2 rounded"
-        >uri :
-        {{location}}</code
-      >
+    <div class="text-center mb-4">
+      <img src='/undraw_server_down_s-4-lk.svg' class="w-25 mx-auto" />
+    </div>
+    <div class="mx-auto text-center p-4">
       <h2 class="text-uppercase my-3">oops 500</h2>
       <p class="lead text-capitalize">{{message}}</p>
-      <a class="btn btn-lg btn-light text-uppercase" href="/">home page</a>
+      <a class="btn btn-lg btn-info text-uppercase" href="/">home page</a>
     </div>
   </section>
 </main>

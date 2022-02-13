@@ -39,7 +39,8 @@ async function transferAction(req: Request, res: Response, next: NextFunction) {
         await getRepository(Trasnfer).insert({
             amount: parseFloat(amount), senderId: parseInt(senderId), receiverId: parseInt(receiverId)
         })
-        res.redirect('/customers', 200);
+        const customers = await getRepository(Customer).find();
+        res.render('pages.customers', { customers });
     } catch (err) {
         next(err)
     }
@@ -54,7 +55,7 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
         const customer = await getRepository(Customer).findOneOrFail(parseInt(id));
 
         const customres = await getRepository(Customer).find();
-        res.render('pages.customer', { customer, customres, message });
+        res.render('pages.customer', { customer, customres, message, csrf_token: req.csrfToken() });
     } catch (err) {
         next(err)
     }

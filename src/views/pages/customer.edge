@@ -1,16 +1,15 @@
 @layout('layouts.app')
 @section('body')
-<main class="py-4 mt-5" id="customer-page">
-  <h2 class=" text-center mb-4 text-uppercase">{{customer.name}} </h2>
+<main class="py-4" id="customer-page">
+  <h2 class=" text-center mb-4 text-uppercase font-weight-bold">{{customer.name}} </h2>
   @if(message)
-  <div class="bg-light  font-weight-bold col-4 mx-auto text-capitalize rounded shadow-lg p-4 mt-4 text-danger">
-    <h4 class="text-center mt-0">Error</h4>
-    <p class="text-center">
-      - {{message}}
+  <div class="font-weight-bold col-4 mx-auto text-capitalize rounded  mt-4 text-danger">
+    <p class="text-center my-0">
+      {{message}}
     </p>
   </div>
   @endif
-  <section class=" col-4 container rounded shadow-lg bg-white px-3 py-3 bg-secondary text-dark mt-5">
+  <section class=" col-6 container rounded shadow-lg bg-white px-3 py-3  text-dark mt-5">
     <h5 class=" mb-2 text-center text-uppercase">customer informations</h5>
     <hr>
     <div class=" form-group d-flex align-items-center text-uppercase flex-row mb-3">
@@ -50,11 +49,12 @@
             </div>
             <div class='modal-body'>
               <form id="transferForm" action="/transfer" method="post">
+                <input type="hidden" name="_csrf" value="{{csrf_token}}">
                 <input type="hidden" name="senderId" value="{{ customer.id }}">
                 <div class=" form-group text-black mb-3">
                   <label class=" font-weight-bold text-capitalize">customer</label>
                   <select class=" selectpicker d-block form-control"
-                  data-style='btn-dark'
+                  data-style='btn-info'
                     name="receiverId"
                     data-live-search="true"
                     required
@@ -66,18 +66,18 @@
                 </div>
                 <div class=" form-group">
                   <label class=" font-weight-bold text-capitalize">amount</label>
-                  <input class=" form-control bg-dark text-white  shadow" type="text" name="amount" required>
+                  <input class=" form-control bg-info text-white" type="text" name="amount" required>
                 </div>
               </form>
             </div>
             <div class=" modal-footer">
-              <button class=" btn btn-outline-dark text-uppercase"
+              <button class=" btn btn-outline-info text-uppercase"
                 type="button"
                 data-dismiss="modal"
               >
                 Close
               </button>
-              <button class="btn btn-dark text-uppercase " id="submit-transfer-form" type="button">
+              <button class="btn btn-info text-uppercase " id="submit-transfer-form" type="button">
                 transfer
               </button>
             </div>
@@ -86,7 +86,7 @@
       </div>
       <!-- transfer modal here  -->
       <div class=" mt-4">
-        <button class=" btn btn-block w-100 btn-dark text-uppercase"
+        <button class=" btn btn-block w-100 btn-info text-uppercase"
           data-toggle="modal"
           data-target="#transferModal"
         >

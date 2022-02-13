@@ -12,7 +12,7 @@ async function ScriptsRunner() {
 
     await CreateDbScript();
 
-    execSync('npm run db:dev:migrate && npm run db:dev:seed');
+    execSync('npm run db:migrate && npm run db:seed ');
 
     await pgConnection.end();
     

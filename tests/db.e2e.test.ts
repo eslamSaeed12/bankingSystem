@@ -12,7 +12,6 @@ let con: Connection;
 beforeAll(async () => {
     execSync('npm run db:dev:build');
     con = await createConnection();
-
 })
 
 
@@ -30,4 +29,9 @@ it('transfers entity should be exist', (done) => {
         expect(Array.isArray(v)).toBeTruthy()
         done()
     }).catch(done)
+})
+
+
+afterAll(async () => {
+    await con.close()
 })

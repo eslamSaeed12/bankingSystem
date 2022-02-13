@@ -1,18 +1,21 @@
-
-.bg-little-dark{
-    background-color: #383a3c;
+@font-face {
+  font-family: poppins;
+  src: url("/Poppins-Regular.ttf");
 }
 
+.bg-semi-light {
+  background-color: #f6f7fa;
+}
 body {
-    background-color: #383a3c;
-    color:#ffff;
+  color: #383a3c;
+  background-color: #fff;
+  font-family: poppins;
 }
 
-.full-height{
-    height: 100vh;
+.full-height {
+  height: 100vh;
 }
 
-
-.selectable-item{
-    cursor: pointer;
+.selectable-item {
+  cursor: pointer;
 }
