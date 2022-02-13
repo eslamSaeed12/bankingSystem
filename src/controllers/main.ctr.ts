@@ -53,11 +53,6 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
 
         const customer = await getRepository(Customer).findOneOrFail(parseInt(id));
 
-        if (!customer) {
-            res.redirect('/404', 404);
-            return;
-        }
-
         const customres = await getRepository(Customer).find();
         res.render('pages.customer', { customer, customres, message });
     } catch (err) {

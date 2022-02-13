@@ -7,6 +7,7 @@ import { join } from 'path'
 import { env } from './utils/env';
 import { useCheckCustomerBalanceMd } from './middlewares/checkCustomerBalanceMd';
 import { useServerErrorMd } from './middlewares/ServerErrorMd';
+import { useLocationHeader } from './middlewares/useLocationHeader';
 
 
 
@@ -31,6 +32,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(helmet())
 app.use(_static('public'))
+app.use(useLocationHeader)
 
 // REGISTER ROUTES
 app.get('/', homeAction);
