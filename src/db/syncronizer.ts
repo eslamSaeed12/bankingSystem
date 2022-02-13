@@ -14,6 +14,8 @@ async function ScriptsRunner() {
 
     execSync('npm run db:dev:migrate && npm run db:dev:seed');
 
+    await pgConnection.end();
+    
     console.log('db syncronized succssesfully !');
 }
 
