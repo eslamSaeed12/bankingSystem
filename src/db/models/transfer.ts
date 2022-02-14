@@ -8,12 +8,13 @@ export class Trasnfer {
     id!: number;
 
     @OneToOne(type => Customer)
-    @JoinColumn()
-    senderId!: number;
+    @JoinColumn({ name: 'senderId' })
+    sender!: Customer;
 
     @OneToOne(type => Customer)
-    @JoinColumn()
-    receiverId!: number;
+    @JoinColumn({ name: 'receiverId' })
+    receiver!: Customer;
+
     @Column('double precision', { nullable: false })
     amount!: number;
 

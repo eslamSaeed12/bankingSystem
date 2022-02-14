@@ -2,6 +2,11 @@ import { createConnection } from 'typeorm';
 import { env } from '../utils/env';
 import { join } from 'path'
 
+const ssl: boolean | object = env('NODE_ENV') === 'development' ? false : {
+    rejectUnauthorized: false
+};
+
+
 export const connection = createConnection({
     type: 'postgres',
     database: env('TYPEORM_DATABASE'),
@@ -12,9 +17,7 @@ export const connection = createConnection({
     password: env('TYPEORM_PASSWORD'),
     synchronize: false,
     logging: false,
-    ssl: {
-        rejectUnauthorized: false
-    },
+    ssl: ssl,
     cli: {
         entitiesDir: join(__dirname, 'models'),
         migrationsDir: join(__dirname, 'migrations')

@@ -26,7 +26,7 @@ async function transferAction(req: Request, res: Response, next: NextFunction) {
     try {
         const { senderId, receiverId, amount } = req.body;
 
-      
+
         const sender = await (await connection).getRepository(Customer).findOneOrFail(senderId);
 
         const receiver = await (await connection).getRepository(Customer).findOneOrFail(receiverId);
@@ -40,7 +40,11 @@ async function transferAction(req: Request, res: Response, next: NextFunction) {
         });
 
         await (await connection).getRepository(Trasnfer).insert({
-            amount: parseFloat(amount), senderId: parseInt(senderId), receiverId: parseInt(receiverId)
+            amount: parseFloat(amount), sender: {
+                id: parseInt(senderId)
+            }, receiver: {
+                id: parseInt(receiverId)
+            }
         })
         const customers = await (await connection).getRepository(Customer).find();
         res.render('pages.customers', { customers });
@@ -73,4 +77,16 @@ async function notFoundAction(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export { homeAction, customersAction, transferAction, customerAction, notFoundAction };
+
+async function transcactionsAction(req: Request, res: Response, next: NextFunction) {
+    try {
+        const transcations = await (await connection).getRepository(Trasnfer)
+            .find({ relations: ['sender', 'receiver'], take: 10 })
+
+        res.render('pages/transcations', { transcations });
+    } catch (error) {
+        next(error)
+    }
+}
+
+export { homeAction, customersAction, transferAction, customerAction, notFoundAction, transcactionsAction };

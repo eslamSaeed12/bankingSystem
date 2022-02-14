@@ -2,7 +2,7 @@ import express, { static as _static } from 'express'
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import { homeAction, customersAction, transferAction, customerAction, notFoundAction } from './controllers/main.ctr';
+import { homeAction, customersAction, transferAction, customerAction, notFoundAction, transcactionsAction } from './controllers/main.ctr';
 import { join } from 'path'
 import { env } from './utils/env';
 import { useCheckCustomerBalanceMd } from './middlewares/checkCustomerBalanceMd';
@@ -50,6 +50,7 @@ app.get('/', homeAction);
 app.get('/customers', customersAction);
 app.get('/customer/:id', customerAction);
 app.post('/transfer', useCheckCustomerBalanceMd, transferAction);
+app.get('/transcations', transcactionsAction);
 //  a route dispatched when a user dispatch a non exist route
 app.use(useServerErrorMd);
 app.use(notFoundAction);
