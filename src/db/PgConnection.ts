@@ -6,4 +6,7 @@ export const pgConnection = new Client({
     password: env('TYPEORM_PASSWORD'),
     port: Number(env('TYPEORM_PORT')),
     host: env('TYPEORM_HOST'),
+    ssl: {
+        rejectUnauthorized: false
+    }
 })

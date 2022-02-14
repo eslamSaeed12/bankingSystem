@@ -13,5 +13,8 @@ export const connection = default_ ? createConnection('default') : createConnect
     username: env('TYPEORM_USERNAME'),
     password: env('TYPEORM_PASSWORD'),
     synchronize: false,
-    logging: false
+    logging: false,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
