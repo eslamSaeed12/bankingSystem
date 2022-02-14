@@ -12,7 +12,9 @@ export const connection = createConnection({
     password: env('TYPEORM_PASSWORD'),
     synchronize: false,
     logging: false,
-    ssl: true,
+    ssl: {
+        rejectUnauthorized: false
+    },
     cli: {
         entitiesDir: join(__dirname, 'models'),
         migrationsDir: join(__dirname, 'migrations')
