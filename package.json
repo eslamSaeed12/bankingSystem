@@ -43,7 +43,7 @@
     "db:revert": "npm run typeorm migration:revert",
     "db:seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "db:build": "npm run db:revert && npm run db:migrate && npm run db:seed",
-    "heroku-postbuild": "npm run db:build"
+    "heroku-postbuild": "npm run db:build && npm run build"
   },
   "devDependencies": {
     "@types/chance": "^1.1.3",
