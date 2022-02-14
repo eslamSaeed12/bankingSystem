@@ -1,8 +1,6 @@
-
-
 import { config } from 'dotenv';
 
-config();
+config()
 
 const env = (key: string) => {
     if (!process.env[key]) {

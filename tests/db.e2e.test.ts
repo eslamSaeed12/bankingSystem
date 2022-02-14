@@ -1,16 +1,16 @@
 import 'reflect-metadata'
-import { config } from 'dotenv'
 import { Connection, createConnection } from 'typeorm'
 import { Customer } from '../src/db/models/customer';
 import { Trasnfer } from '../src/db/models/transfer';
 import { execSync } from 'child_process'
-config();
+import '../src/utils/env';
+
 
 let con: Connection;
 
 
 beforeAll(async () => {
-    execSync('npm run db:dev:build');
+    execSync('npm run db:build');
     con = await createConnection();
 })
 

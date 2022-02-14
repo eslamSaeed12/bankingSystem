@@ -23,7 +23,7 @@ const { config, engine } = require('express-edge');
 
 config({ cahce: env('NODE_ENV') === 'production' })
 
-app.set('views', `${join(__dirname, 'views')}`);
+app.set('views', `${join(process.cwd(), 'views')}`);
 
 app.set('view engine', 'edge');
 

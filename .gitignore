@@ -1,4 +1,7 @@
 .env
+dev.env
+prod.env
 notes.txt
 /node_modules
 /build
+ormconfig.*

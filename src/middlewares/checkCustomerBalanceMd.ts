@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { connection } from "../db/connection";
 import { Customer } from "../db/models/customer";
 
 // if sender balance less than amount he want to transfer redirect him to the page with error msg
@@ -7,7 +7,8 @@ export const useCheckCustomerBalanceMd = async (req: Request, res: Response, nex
     try {
         const { amount, senderId } = req.body;
 
-        const { balance } = await getRepository(Customer).findOneOrFail(senderId);
+
+        const { balance } = await (await connection).getRepository(Customer).findOneOrFail(senderId);
 
         const referer = req.headers.referer ?? '/customer/' + senderId;
 

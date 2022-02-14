@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
-import { getRepository } from "typeorm";
+import { connection } from "../db/connection";
 import { Customer } from "../db/models/customer";
 import { Trasnfer } from "../db/models/transfer";
+
 
 function homeAction(req: Request, res: Response, next: NextFunction) {
     try {
@@ -13,7 +14,8 @@ function homeAction(req: Request, res: Response, next: NextFunction) {
 
 async function customersAction(req: Request, res: Response, next: NextFunction) {
     try {
-        const customers = await getRepository(Customer).find();
+
+        const customers = await (await connection).getRepository(Customer).find();
         res.render('pages.customers', { customers });
     } catch (err) {
         next(err)
@@ -24,22 +26,23 @@ async function transferAction(req: Request, res: Response, next: NextFunction) {
     try {
         const { senderId, receiverId, amount } = req.body;
 
-        const sender = await getRepository(Customer).findOneOrFail(senderId);
+      
+        const sender = await (await connection).getRepository(Customer).findOneOrFail(senderId);
 
-        const receiver = await getRepository(Customer).findOneOrFail(receiverId);
+        const receiver = await (await connection).getRepository(Customer).findOneOrFail(receiverId);
 
-        await getRepository(Customer).update(sender.id, {
+        await (await connection).getRepository(Customer).update(sender.id, {
             balance: (sender.balance) - parseFloat(amount)
         });
 
-        await getRepository(Customer).update(receiver.id, {
+        await (await connection).getRepository(Customer).update(receiver.id, {
             balance: (sender.balance) + parseFloat(amount)
         });
 
-        await getRepository(Trasnfer).insert({
+        await (await connection).getRepository(Trasnfer).insert({
             amount: parseFloat(amount), senderId: parseInt(senderId), receiverId: parseInt(receiverId)
         })
-        const customers = await getRepository(Customer).find();
+        const customers = await (await connection).getRepository(Customer).find();
         res.render('pages.customers', { customers });
     } catch (err) {
         next(err)
@@ -52,9 +55,9 @@ async function customerAction(req: Request, res: Response, next: NextFunction) {
         const { id } = req.params;
         const { message } = req.query;
 
-        const customer = await getRepository(Customer).findOneOrFail(parseInt(id));
+        const customer = await (await connection).getRepository(Customer).findOneOrFail(parseInt(id));
 
-        const customres = await getRepository(Customer).find();
+        const customres = await (await connection).getRepository(Customer).find();
         res.render('pages.customer', { customer, customres, message, csrf_token: req.csrfToken() });
     } catch (err) {
         next(err)
