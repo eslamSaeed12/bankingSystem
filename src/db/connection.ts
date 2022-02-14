@@ -2,9 +2,7 @@ import { createConnection } from 'typeorm';
 import { env } from '../utils/env';
 import { join } from 'path'
 
-const default_ = env('NODE_ENV') === 'development';
-
-export const connection = default_ ? createConnection('default') : createConnection({
+export const connection = createConnection({
     type: 'postgres',
     database: env('TYPEORM_DATABASE'),
     host: env('TYPEORM_HOST'),
@@ -16,5 +14,9 @@ export const connection = default_ ? createConnection('default') : createConnect
     logging: false,
     ssl: {
         rejectUnauthorized: false
+    },
+    cli: {
+        entitiesDir: join(__dirname, 'models'),
+        migrationsDir: join(__dirname, 'migrations')
     }
 });
